@@ -12,6 +12,15 @@ async def on_ready():
   print("Connected")
   await client.change_presence(status=discord.Status.online, activity=discord.Game('£ping'))
 
+@client.command(name="help")
+async def help(ctx):
+    embed = discord.Embed(title="Pigs amiright", description="here are your help commands ig")
+    embed.set_author(name=client.user.name, icon_url=client.user.avatar_url)
+    embed.add_field(name="commands (will update fields later)", value="``create_shop``, ``ping``", inline=False)
+    embed.set_footer(text="name is Work-in-progress", icon_url=client.user.avatar_url)
+    await ctx.send(embed=embed)
+
+
 @client.command(name="ping")
 async def ping(ctx):
     embed = discord.Embed(title="Pong!", description=f'Pong! {round(client.latency * 1000)}ms', color=random.randint(0, 16777216))
