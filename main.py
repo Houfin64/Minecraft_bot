@@ -1,33 +1,33 @@
 import discord
 import random
 from discord.ext import commands
-from shop import Shop
 from tools import json_write, load_json
 
-client = commands.Bot(command_prefix = "£")
+intents = discord.Intents.all()
+bot = commands.Bot(intents=intents, command_prefix = "£")
 
-client.remove_command('help')
+bot.remove_command('help')
 
-@client.event
+@bot.event
 async def on_ready():
   print("Connected")
-  await client.change_presence(status=discord.Status.online, activity=discord.Game('£ping'))
+  await bot.change_presence(status=discord.Status.online, activity=discord.Game('£ping'))
 
-@client.command(name="help")
+@bot.command(name="help")
 async def help(ctx):
     embed = discord.Embed(title="Pigs amiright", description="here are your help commands ig")
-    embed.set_author(name=client.user.name, icon_url=client.user.avatar_url)
+    embed.set_author(name=bot.user.name, icon_url=bot.user.avatar_url)
     embed.add_field(name="commands (will update fields later)", value="``create_shop``, ``ping``", inline=False)
-    embed.set_footer(text="name is Work-in-progress", icon_url=client.user.avatar_url)
+    embed.set_footer(text="name is Work-in-progress", icon_url=bot.user.avatar_url)
     await ctx.send(embed=embed)
 
 
-@client.command(name="ping")
+@bot.command(name="ping")
 async def ping(ctx):
-    embed = discord.Embed(title="Pong!", description=f'Pong! {round(client.latency * 1000)}ms', color=random.randint(0, 16777216))
+    embed = discord.Embed(title="Pong!", description=f'Pong! {round(bot.latency * 1000)}ms', color=random.randint(0, 16777216))
     await ctx.send(embed=embed)
 
-@client.command(name="create-shop")
+@bot.command(name="create-shop")
 async def create_shop(ctx):
 
     sdict = await load_json("shops")
@@ -36,7 +36,7 @@ async def create_shop(ctx):
     embed = discord.Embed(title="Welcome to the Shop interface!", description="Please tell me the name of your shop!", color=random.randint(0, 16777216))
     await ctx.send(embed=embed)
 
-    message = await client.wait_for("message", check=lambda m: m.author == ctx.author and m.channel == ctx.channel)
+    message = await bot.wait_for("message", check=lambda m: m.author == ctx.author and m.channel == ctx.channel)
     content = message.content
     name = content
     owner = ctx.author.id
@@ -50,25 +50,19 @@ async def create_shop(ctx):
     embed = discord.Embed(title="Welcome to the Shop interface!", description="Please give me a description of your shop!", color=random.randint(0, 16777216))
     await ctx.send(embed=embed)
 
-    message = await client.wait_for("message", check=lambda m: m.author == ctx.author and m.channel == ctx.channel)
+    message = await bot.wait_for("message", check=lambda m: m.author == ctx.author and m.channel == ctx.channel)
     content = message.content
     description = content
-    embed = discord.Embed(title="Welcome to the Shop interface!", description="Please tell me what you will sell! (format: `<item>: [price]`)", color=random.randint(0, 16777216))
-    await ctx.send(embed=embed)
-
-    message = await client.wait_for("message", check=lambda m: m.author == ctx.author and m.channel == ctx.channel)
-    content = content
-    items = message.content
-    embed = discord.Embed(title="KK, Thanks", description="I've added you to the shop list :)!", color=random.randint(0, 16777216))
+    embed = discord.Embed(title="KK, Thanks", description="I've added you to the shop list :)! do `£add-item` to add items to your shop.", color=random.randint(0, 16777216))
     await ctx.send(embed=embed)
 
     udict[str(ctx.author.id)] = name
-    sdict[name] = {"owner": str(owner), "description": description, "items": items}
+    sdict[name] = {"owner": str(owner), "description": description, "items": None}
 
     await json_write("shops", sdict)
     await json_write("users", udict)
 
-@client.command(name="remove-shop")
+@bot.command(name="remove-shop")
 async def remove_shop(ctx):
     sdict = await load_json("shops")
     udict = await load_json("users")
@@ -86,4 +80,24 @@ async def remove_shop(ctx):
     await json_write("users", udict)
     await json_write("shops", sdict)
 
-client.run('ODIzOTI4NzcwMTIwNTE1NjY1.YFn9dg.lCoqMxOwpVnehLnLEjdX1Hsi0rs')
+@bot.command(name="add-item")
+async def add_item(ctx):
+    sdict = await load_json("shops")
+
+    embed = discord.Embed(title="Under Development atm", description="I'm gonna make you send me a thing of `item: price` and i will add to to your shop", color=random.randint(0, 16777216))
+    await ctx.send(embed=embed)
+
+    await json_write("shops", sdict)
+
+@bot.command(name="shops")
+async def shops(ctx):
+    sdict = await load_json("shops")
+
+    embed = discord.Embed(title="Shops", description="These are the shops that people own", color=random.randint(0, 16777216))
+    for elem in sdict:
+        embed.add_field(name=elem, value=bot.get_user(int(sdict[elem]["owner"])).name)
+    await ctx.send(embed=embed)
+
+    await json_write("shops", sdict)
+
+bot.run('ODIzOTI4NzcwMTIwNTE1NjY1.YFn9dg.lCoqMxOwpVnehLnLEjdX1Hsi0rs')
