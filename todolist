@@ -6,3 +6,6 @@ where keys are user ids and values are a dict of the shops that they own, where 
 json file dictionary where the keys are names and the values are the shop things like items and so on.  
 
 kk that's done. 
+
+
+next up:  placing orders and notifying the shop owner when they come online.  
