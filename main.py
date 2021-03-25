@@ -15,7 +15,7 @@ async def on_ready():
 
 @bot.command(name="help")
 async def help(ctx):
-    embed = discord.Embed(title="Pigs amiright", description="here are your help commands ig", color=random.randint(0, 16777215))
+    embed = discord.Embed(title="Pigs amiright", description="here are your help commands ig.", color=random.randint(0, 16777215))
     embed.set_author(name=bot.user.name, icon_url=bot.user.avatar_url)
     embed.add_field(name="commands (will update fields later)", value="``help``, ``ping``, ``create-shop``, ``remove-shop`` \n``add-item``, ``remove-item``, ``shops``, ``shop``", inline=False)
     embed.set_footer(text="name is Work-in-progress", icon_url=bot.user.avatar_url)

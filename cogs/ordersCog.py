@@ -16,7 +16,40 @@ class Orders(commands.Cog):
 
     @commands.command(name="place-order")
     async def place_order(self, ctx, shop, item, quantity):
-        pass
+        udict = await load_json("users")
+        sdict = await load_json("shops")
+        iodict = await load_json("orders")
+        oodict = await load_json("out_orders")
+
+        orderer = str(ctx.author.id)
+        if shop not in sdict:
+            embed = discord.Embed(title="Welp that failed!", description="That shop doesn't exist. use `£shops` to see the existing ones", color=0xff0000)
+            return await ctx.send(embed=embed)
+        if item not in sdict[shop]["items"]:
+            embed = discord.Embed(title="Welp that failed!", description="That item doesn't exist. use `£shop <user>` to see the existing ones", color=0xff0000)
+            return await ctx.send(embed=embed)
+        else:
+            try:
+                tprice = int(quantity) * int(sdict[shop][item])
+            except ValueError:
+                embed = discord.Embed(title="Welp that failed!", description="Please have the quantity as an integer", color=0xff0000)
+                return await ctx.send(embed=embed)
+        orderee = sdict[shop]["owner"]
+
+        iodict[orderee] = {"orderer": orderer, "tprice": tprice, "quantity": quantity, "shop": shop, "item": item}
+        oodict[orderer] = {"orderee": orderee, "tprice": tprice, "quantity": quantity, "shop": shop, "item": item}
+
+        await self.bot.get_user(int(orderee)).create_dm()
+
+
+        embed=discord.Embed(title="An Order has been placed with your shop", description="For {} {}s for a total price of {}".format(quantity, item, tprice), colour=0x00ff00)
+        await self.bot.get_user(int(orderee)).dm_channel.send(embed=embed)
+
+        await ctx.send(embed=embed)
+
+        await json_write("orders", iodict)
+        await json_write("out_orders", oodict)
+
         # NOTE:  DM will be sent automatically when order is placed, and a second DM will be sent when revoked to apologise for useless DM
 
     @commands.command(name="revoke-order")

@@ -9,3 +9,8 @@ kk that's done.
 
 
 next up:  placing orders and notifying the shop owner when they come online.  
+
+Thinky typing:  How to structure the dictionary:  I am going to have one file, orders.json.  The keys are going to be user ids of who it is going to, with the values
+as dictionaries including all of the relevant information, such as the orderer, quantity, total price, and the item being bought. Wait a second.
+i need a second dict.  outgoing orders.  because then i can make it work more nicely, and be able to scroll through my dicts more easily.  wait.  no..  GRAAA
+i will think about this after maths.    
