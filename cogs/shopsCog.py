@@ -8,12 +8,6 @@ class Shops(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.Cog.listener()
-    async def on_command_error(self, ctx, error):
-        if isinstance(error, commands.MissingRequiredArgument):
-            embed = discord.Embed(title="Oops", description="looks like you forgot an argument!", color=0xff0000)
-            await ctx.send(embed=embed)
-
     @commands.command(name="create-shop")
     async def create_shop(self, ctx, *, argument):
 
