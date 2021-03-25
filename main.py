@@ -1,7 +1,7 @@
 import discord
 import random
 from discord.ext import commands
-from tools import json_write, load_json
+from tools import json_write, load_json, Member_Obj
 
 intents = discord.Intents.all()
 bot = commands.Bot(intents=intents, command_prefix = "£")
@@ -15,9 +15,9 @@ async def on_ready():
 
 @bot.command(name="help")
 async def help(ctx):
-    embed = discord.Embed(title="Pigs amiright", description="here are your help commands ig", color=16777215)
+    embed = discord.Embed(title="Pigs amiright", description="here are your help commands ig", color=random.randint(0, 16777215))
     embed.set_author(name=bot.user.name, icon_url=bot.user.avatar_url)
-    embed.add_field(name="commands (will update fields later)", value="``create-shop``, ``ping``", inline=False)
+    embed.add_field(name="commands (will update fields later)", value="``help``, ``ping``, ``create-shop``, ``remove-shop`` \n``add-item``, ``remove-item``, ``shops``, ``shop``", inline=False)
     embed.set_footer(text="name is Work-in-progress", icon_url=bot.user.avatar_url)
     await ctx.send(embed=embed)
 
@@ -57,7 +57,7 @@ async def create_shop(ctx):
     await ctx.send(embed=embed)
 
     udict[str(ctx.author.id)] = name
-    sdict[name] = {"owner": str(owner), "description": description, "items": {}}
+    sdict[name] = {"owner": str(owner), "description": description, "items": {}, "name": name}
 
     await json_write("shops", sdict)
     await json_write("users", udict)
@@ -127,21 +127,33 @@ async def shops(ctx):
     sdict = await load_json("shops")
 
     embed = discord.Embed(title="Shops", description="These are the shops that people own", color=random.randint(0, 16777215))
+    embed.set_author(name=bot.user.name, icon_url=bot.user.avatar_url)
     for elem in sdict:
         embed.add_field(name=elem, value=bot.get_user(int(sdict[elem]["owner"])).name)
+
+    embed.set_footer(text=f"requested by {ctx.author.name}", icon_url=ctx.author.avatar_url)
     await ctx.send(embed=embed)
 
     await json_write("shops", sdict)
 
 @bot.command(name="shop")
-async def shops(ctx, user):
+async def shop(ctx, *, profiles: Member_Obj = None):
+    if profiles == None:
+        profiles = [ctx.author]
+    if len(profiles) > 1:
+        embed = discord.Embed(description="Be more specific for goodness's sake!", color=random.randint(0, 16777215))
+        return await ctx.send(embed=embed)
+    user = profiles[0]
+
+
     sdict = await load_json("shops")
+    udict = await load_json("users")
 
-    embed = discord.Embed(title="Shops", description="These are the shops that people own", color=random.randint(0, 16777215))
-    for elem in sdict:
-        embed.add_field(name=elem, value=bot.get_user(int(sdict[elem]["owner"])).name)
+    embed = discord.Embed(title=sdict[udict[str(user.id)]]["name"], description=sdict[udict[str(user.id)]]["description"], color=random.randint(0, 16777215))
+    embed.set_author(name=user.name, icon_url=user.avatar_url)
+    for elem in sdict[udict[str(user.id)]]["items"]:
+        embed.add_field(name=elem, value=sdict[udict[str(user.id)]]["items"][elem])
+    embed.set_footer(text=f"requested by {ctx.author.name}", icon_url=ctx.author.avatar_url)
     await ctx.send(embed=embed)
-
-    await json_write("shops", sdict)
 
 bot.run('ODIzOTI4NzcwMTIwNTE1NjY1.YFn9dg.lCoqMxOwpVnehLnLEjdX1Hsi0rs')
