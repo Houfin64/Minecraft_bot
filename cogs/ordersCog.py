@@ -29,17 +29,20 @@ class Orders(commands.Cog):
             embed = discord.Embed(title="Welp that failed!", description="That item doesn't exist. use `£shop <user>` to see the existing ones", color=0xff0000)
             return await ctx.send(embed=embed)
         try:
-            tprice = int(quantity) * int(sdict[shop][item])
+            tprice = int(quantity) * int(sdict[shop]["items"][item])
         except ValueError:
-            embed = discord.Embed(title="Welp that failed!", description="Please have the quantity as an integer", color=0xff0000)
+            embed = discord.Embed(title="Welp that failed!", description="usage: `£place-order <shop> <item> <quantity(integer)>", color=0xff0000)
             return await ctx.send(embed=embed)
+        
         orderee = sdict[shop]["owner"]
 
         iodict[orderee] = {"orderer": orderer, "tprice": tprice, "quantity": quantity, "shop": shop, "item": item}
         oodict[orderer] = {"orderee": orderee, "tprice": tprice, "quantity": quantity, "shop": shop, "item": item}
 
+        await self.bot.get_user(int(orderee)).create_dm()
+
         embed = discord.Embed(title="An Order has been placed with your shop", description="For {} {}s for a total price of {}".format(quantity, item, tprice), colour=0x00ff00)
-        await ctx.send(embed=embed)
+        await self.bot.get_user(int(orderee)).dm_channel.send(embed=embed)
 
         await json_write("orders", iodict)
         await json_write("out_orders", oodict)
