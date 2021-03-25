@@ -28,23 +28,17 @@ class Orders(commands.Cog):
         if item not in sdict[shop]["items"]:
             embed = discord.Embed(title="Welp that failed!", description="That item doesn't exist. use `£shop <user>` to see the existing ones", color=0xff0000)
             return await ctx.send(embed=embed)
-        else:
-            try:
-                tprice = int(quantity) * int(sdict[shop][item])
-            except ValueError:
-                embed = discord.Embed(title="Welp that failed!", description="Please have the quantity as an integer", color=0xff0000)
-                return await ctx.send(embed=embed)
+        try:
+            tprice = int(quantity) * int(sdict[shop][item])
+        except ValueError:
+            embed = discord.Embed(title="Welp that failed!", description="Please have the quantity as an integer", color=0xff0000)
+            return await ctx.send(embed=embed)
         orderee = sdict[shop]["owner"]
 
         iodict[orderee] = {"orderer": orderer, "tprice": tprice, "quantity": quantity, "shop": shop, "item": item}
         oodict[orderer] = {"orderee": orderee, "tprice": tprice, "quantity": quantity, "shop": shop, "item": item}
 
-        await self.bot.get_user(int(orderee)).create_dm()
-
-
-        embed=discord.Embed(title="An Order has been placed with your shop", description="For {} {}s for a total price of {}".format(quantity, item, tprice), colour=0x00ff00)
-        await self.bot.get_user(int(orderee)).dm_channel.send(embed=embed)
-
+        embed = discord.Embed(title="An Order has been placed with your shop", description="For {} {}s for a total price of {}".format(quantity, item, tprice), colour=0x00ff00)
         await ctx.send(embed=embed)
 
         await json_write("orders", iodict)
