@@ -8,7 +8,7 @@ class Shops(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(name="create-shop")
+    @commands.command(name="create-shop", aliases=["cs", "cre-s"])
     async def create_shop(self, ctx, *, argument):
 
         sdict = await load_json("shops")
@@ -38,7 +38,7 @@ class Shops(commands.Cog):
         await json_write("shops", sdict)
         await json_write("users", udict)
 
-    @commands.command(name="remove-shop")
+    @commands.command(name="remove-shop", aliases=["rs", "rem-s"])
     async def remove_shop(self, ctx):
         sdict = await load_json("shops")
         udict = await load_json("users")
@@ -56,7 +56,7 @@ class Shops(commands.Cog):
         await json_write("users", udict)
         await json_write("shops", sdict)
 
-    @commands.command(name="add-item")
+    @commands.command(name="add-item", aliases=["ai", "add-i"])
     async def add_item(self, ctx, *, argument):
 
         if "|" not in argument:
@@ -86,7 +86,7 @@ class Shops(commands.Cog):
 
         await json_write("shops", sdict)
 
-    @commands.command(name="remove-item")
+    @commands.command(name="remove-item", aliases=["ri", "rem-i"])
     async def remove_item(self, ctx, item):
         sdict = await load_json("shops")
         udict = await load_json("users")
@@ -101,7 +101,7 @@ class Shops(commands.Cog):
 
         await json_write("shops", sdict)
 
-    @commands.command(name="shops")
+    @commands.command(name="shops", aliases=["ls", "list-shops", "stalls"])
     async def shops(self, ctx):
         sdict = await load_json("shops")
 
@@ -115,7 +115,7 @@ class Shops(commands.Cog):
 
         await json_write("shops", sdict)
 
-    @commands.command(name="shop")
+    @commands.command(name="shop", aliases=["s", "stall"])
     async def shop(self, ctx, *, profiles: Member_Obj = None):
         if profiles == None:
             profiles = [ctx.author]
@@ -136,7 +136,7 @@ class Shops(commands.Cog):
         await ctx.send(embed=embed)
 
 
-    @commands.command(name="debts")
+    @commands.command(name="debts", aliases=["debt", "d"])
     async def debts(self, ctx):
         iodict = await load_json("orders")
         oodict = await load_json("out_orders")
@@ -154,7 +154,7 @@ class Shops(commands.Cog):
         await ctx.send(embed=embed)
 
     
-    @commands.command(name="my-debts")
+    @commands.command(name="my-debts", aliases=["md", "mydebt"])
     async def mydebts(self, ctx):
         iodict = await load_json("orders")
         oodict = await load_json("out_orders")

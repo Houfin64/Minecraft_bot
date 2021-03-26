@@ -17,7 +17,7 @@ class Orders(commands.Cog):
             embed = discord.Embed(title=str(error), description="Oh oh, crash!", color=0xff0000)
             await ctx.send(embed=embed)
 
-    @commands.command(name="place-order")
+    @commands.command(name="place-order", aliases=["po", "pla-ord"])
     async def place_order(self, ctx, shop, *, argument):
         udict = await load_json("users")
         sdict = await load_json("shops")
@@ -73,7 +73,7 @@ class Orders(commands.Cog):
 
         # NOTE:  DM will be sent automatically when order is placed, and a second DM will be sent when revoked to apologise for useless DM
 
-    @commands.command(name="revoke-order")
+    @commands.command(name="revoke-order", aliases=["ro", "rev-ord"])
     async def revoke_order(self, ctx, order):
         udict = await load_json("users")
         sdict = await load_json("shops")
@@ -104,7 +104,7 @@ class Orders(commands.Cog):
         await json_write("orders", iodict)
         await json_write("out_orders", oodict)
 
-    @commands.command(name="complete-order")
+    @commands.command(name="complete-order", aliases=["co", "comp-ord"])
     async def complete_order(self, ctx, order):
         udict = await load_json("users")
         sdict = await load_json("shops")
@@ -135,7 +135,7 @@ class Orders(commands.Cog):
         await json_write("orders", iodict)
         await json_write("out_orders", oodict)
 
-    @commands.command(name="outgoing-orders")
+    @commands.command(name="outgoing-orders", aliases=["oo", "out-ord"])
     async def my_orders(self, ctx, *, profiles: Member_Obj = None):
         if profiles == None:
             profiles = [ctx.author]
@@ -159,7 +159,7 @@ class Orders(commands.Cog):
         embed.set_footer(text=f"requested by {ctx.author.name}", icon_url=ctx.author.avatar_url)
         await ctx.send(embed=embed)
 
-    @commands.command(name="incoming-orders")
+    @commands.command(name="incoming-orders", aliases=["io", "in-ord"])
     async def incoming_orders(self, ctx, *, profiles: Member_Obj = None):
         if profiles == None:
             profiles = [ctx.author]
