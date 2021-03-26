@@ -15,7 +15,7 @@ class Shops(commands.Cog):
         udict = await load_json("users")
 
         if "|" not in argument:
-            embed = discord.Embed(title="Welp, that failed!", description="Syntax: `£create-shop <shop-name> | <description>`", color=0xff0000)
+            embed = discord.Embed(title="Welp, that failed!", description="Syntax: `£create-shop <shop-name>|<description>`", color=0xff0000)
             return await ctx.send(embed=embed)
 
         name, description = argument.partition("|")[0], argument.partition("|")[2]
@@ -29,7 +29,7 @@ class Shops(commands.Cog):
             embed = discord.Embed(title="Welp that failed", description="To avoid errors, please have a unique shop name", color=0xff0000)
             return await ctx.send(embed=embed)
 
-        embed = discord.Embed(title="KK, Thanks", description="I've added you to the shop list :)! do `£add-item` to add items to your shop.", color=0xff0000)
+        embed = discord.Embed(title="KK, Thanks", description="I've added you to the shop list :)! do `£add-item` to add items to your shop.", color=0x00ff00)
         await ctx.send(embed=embed)
 
         udict[str(self, ctx.author.id)] = name
@@ -60,7 +60,7 @@ class Shops(commands.Cog):
     async def add_item(self, ctx, *, argument):
 
         if "|" not in argument:
-            embed = discord.Embed(title="Welp, that failed!", description="Syntax: `£add-item <item-name> | <price>`", color=0xff0000)
+            embed = discord.Embed(title="Welp, that failed!", description="Syntax: `£add-item <item-name>|<price>`", color=0xff0000)
             return await ctx.send(embed=embed)
 
         item, price = argument.partition("|")[0], argument.partition("|")[2]

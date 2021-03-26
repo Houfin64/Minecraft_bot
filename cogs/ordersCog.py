@@ -21,6 +21,12 @@ class Orders(commands.Cog):
         iodict = await load_json("orders")
         oodict = await load_json("out_orders")
 
+        if "|" not in argument:
+            embed = discord.Embed(title="Welp, that failed!", description="Syntax: `£place-order <shop>|<item>|<quantity>`", color=0xff0000)
+            return await ctx.send(embed=embed)
+
+        shop, item, quantity = argument.partition("|")[0], argument.partition("|")[2], argument.partition("|")[4]
+
         orderer = str(ctx.author.id)
         if shop not in sdict:
             embed = discord.Embed(title="Welp that failed!", description="That shop doesn't exist. use `£shops` to see the existing ones", color=0xff0000)
