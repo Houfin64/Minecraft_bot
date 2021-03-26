@@ -138,11 +138,40 @@ class Shops(commands.Cog):
 
     @commands.command(name="debts")
     async def debts(self, ctx):
-        pass
+        iodict = await load_json("orders")
+        oodict = await load_json("out_orders")
+        sdict = await load_json("shops")
+        udict = await load_json("users")
+
+        tdebt = 0
+        embed = discord.Embed(title="Debts",  description="To be paid to you", color=random.randint(0, 16777215))
+        for debt in iodict[str(ctx.author.id)]:
+            orderer = self.bot.get_user(int(iodict[str(ctx.author.id)][debt]["orderer"])).name
+            payment = iodict[str(ctx.author.id)][debt]["tprice"]
+            tdebt += payment
+            embed.add_field(name=orderer, value="{} for {} {}".format(payment, iodict[str(ctx.author.id)][debt]["quantity"], iodict[str(ctx.author.id)][debt]["item"]))
+        embed.add_field(name="Total debts To be Paid", value=str(tdebt))
+        await ctx.send(embed=embed)
+
     
     @commands.command(name="my-debts")
     async def mydebts(self, ctx):
-        pass
+        iodict = await load_json("orders")
+        oodict = await load_json("out_orders")
+        sdict = await load_json("shops")
+        udict = await load_json("users")
+
+        tdebt = 0
+        embed = discord.Embed(title="Debts",  description="To be paid by you", color=random.randint(0, 16777215))
+        for debt in oodict[str(ctx.author.id)]:
+            orderee = self.bot.get_user(int(oodict[str(ctx.author.id)][debt]["orderee"])).name
+            payment = oodict[str(ctx.author.id)][debt]["tprice"]
+            tdebt += payment
+            embed.add_field(name=orderee, value="{} for {} {}".format(payment, oodict[str(ctx.author.id)][debt]["quantity"], oodict[str(ctx.author.id)][debt]["item"]))
+        embed.add_field(name="Total debts To be Paid", value=str(tdebt))
+        await ctx.send(embed=embed)
+
+
 
 def setup(bot):
     bot.add_cog(Shops(bot))
