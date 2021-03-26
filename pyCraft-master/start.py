@@ -10,6 +10,11 @@ from minecraft.exceptions import YggdrasilError
 from minecraft.networking.connection import Connection
 from minecraft.networking.packets import Packet, clientbound, serverbound
 
+def send_chat_message(connection, message):
+    packet = ChatPacket()
+    packet.message = message
+	
+    connection.write_packet(packet)
 
 def get_options():
     parser = OptionParser()
@@ -70,7 +75,7 @@ def main():
     else:
         auth_token = authentication.AuthenticationToken()
         try:
-            auth_token.authenticate(options.username, options.password)
+            auth_token.authenticate("Houfin", "Andrewandrew64")
         except YggdrasilError as e:
             print(e)
             sys.exit()
