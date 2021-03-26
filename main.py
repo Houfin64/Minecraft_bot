@@ -2,6 +2,7 @@ import discord
 import random
 from discord.ext import commands
 from functions.tools import json_write, load_json, Member_Obj
+import pyCraft as minecraft
 
 intents = discord.Intents.all()
 bot = commands.Bot(intents=intents, command_prefix = "£")
