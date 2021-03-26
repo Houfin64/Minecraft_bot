@@ -14,3 +14,5 @@ Thinky typing:  How to structure the dictionary:  I am going to have one file, o
 as dictionaries including all of the relevant information, such as the orderer, quantity, total price, and the item being bought. Wait a second.
 i need a second dict.  outgoing orders.  because then i can make it work more nicely, and be able to scroll through my dicts more easily.  wait.  no..  GRAAA
 i will think about this after maths.    
+
+I think i've got it sorted

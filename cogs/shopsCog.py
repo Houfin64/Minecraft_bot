@@ -32,7 +32,7 @@ class Shops(commands.Cog):
         embed = discord.Embed(title="KK, Thanks", description="I've added you to the shop list :)! do `£add-item` to add items to your shop.", color=0x00ff00)
         await ctx.send(embed=embed)
 
-        udict[str(self, ctx.author.id)] = name
+        udict[str(ctx.author.id)] = name
         sdict[name] = {"owner": str(owner), "description": description, "items": {}, "name": name}
 
         await json_write("shops", sdict)
@@ -69,6 +69,11 @@ class Shops(commands.Cog):
         udict = await load_json("users")
 
         try:
+            price = int(price)
+        except ValueError:
+            embed = discord.Embed(title="Welp, that failed!", description="Usage:  `£add-item <item>|<price(integer)>`", color=0xff0000)
+            return await ctx.send(embed=embed)
+        try:
             if sdict[udict[str(ctx.author.id)]]["items"][item]:
                 embed = discord.Embed(title="Welp, that failed!", description="You already have that item in your shop.  \nDo `£remove-item` if you want to change the price!", color=0xff0000)
                 return await ctx.send(embed=embed)
@@ -85,8 +90,11 @@ class Shops(commands.Cog):
     async def remove_item(self, ctx, item):
         sdict = await load_json("shops")
         udict = await load_json("users")
-
-        del sdict[udict[str(ctx.author.id)]]["items"][item]
+        try:
+            del sdict[udict[str(ctx.author.id)]]["items"][item]
+        except KeyError:
+            embed = discord.Embed(title="Welp, that failed!", description="You don't sell that item :)", color=0xff0000)
+            return await ctx.send(embed=embed)
         
         embed = discord.Embed(title="That's you done :)", description="Your item has been removed from your shop", color=0x00ff00)
         await ctx.send(embed=embed)
@@ -126,6 +134,15 @@ class Shops(commands.Cog):
             embed.add_field(name=elem, value=sdict[udict[str(user.id)]]["items"][elem])
         embed.set_footer(text=f"requested by {ctx.author.name}", icon_url=ctx.author.avatar_url)
         await ctx.send(embed=embed)
+
+
+    @commands.command(name="debts")
+    async def debts(self, ctx):
+        pass
+    
+    @commands.command(name="my-debts")
+    async def mydebts(self, ctx):
+        pass
 
 def setup(bot):
     bot.add_cog(Shops(bot))
