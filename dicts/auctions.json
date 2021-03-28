@@ -1,1 +1,1 @@
-{"Test": {"owner": "624654132845740073", "item": "Diamonds", "quantity": 13, "cprice": 4, "fintime": {"year": 14, "month": 14, "day": 2021, "hour": 6, "minute": 3}, "latest_buyer": "624654132845740073"}}
+{"Test": {"owner": "624654132845740073", "item": "Diamonds", "quantity": "1", "cprice": "2", "fintime": {"year": "3", "month": "4", "day": "5", "hour": "6", "minute": "7"}, "latest_buyer": "624654132845740073"}}

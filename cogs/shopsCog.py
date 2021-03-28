@@ -15,7 +15,7 @@ class Shops(commands.Cog):
         udict = await load_json("users")
 
         if "|" not in argument:
-            embed = discord.Embed(title="Welp, that failed!", description="Syntax: `£create-shop <shop-name>|<description>`", color=0xff0000)
+            embed = discord.Embed(title="Welp, that failed!", description="Syntax: `£create-shop <colour> <shop-name>|<description>`", color=0xff0000)
             return await ctx.send(embed=embed)
 
         name, description = argument.partition("|")[0], argument.partition("|")[2]
@@ -29,7 +29,7 @@ class Shops(commands.Cog):
             embed = discord.Embed(title="Welp that failed", description="To avoid errors, please have a unique shop name", color=0xff0000)
             return await ctx.send(embed=embed)
 
-        embed = discord.Embed(title="KK, Thanks", description="I've added you to the shop list :)! do `£add-item` to add items to your shop.", color=0x00ff00)
+        embed = discord.Embed(title="KK, Thanks", description="I've added you to the shop list :)! do `£add-item` to add items to your shop.", color=random.randint(0, 16777215))
         await ctx.send(embed=embed)
 
         udict[str(ctx.author.id)] = name
@@ -128,7 +128,11 @@ class Shops(commands.Cog):
         sdict = await load_json("shops")
         udict = await load_json("users")
 
-        embed = discord.Embed(title=sdict[udict[str(user.id)]]["name"], description=sdict[udict[str(user.id)]]["description"], color=random.randint(0, 16777215))
+        if str(user.id) not in udict:
+            embed = discord.Embed(title="Welp, that failed!", description="You need to `£create-shop` to be able to see your shop :)", color = 0xff0000)
+            return await ctx.send(embed=embed)
+
+        embed = discord.Embed(title=sdict[udict[str(user.id)]]["name"], description=sdict[udict[str(user.id)]]["description"], color=sdict[str(user.id)["colour"]])
         embed.set_author(name=user.name, icon_url=user.avatar_url)
         for elem in sdict[udict[str(user.id)]]["items"]:
             embed.add_field(name=elem, value=sdict[udict[str(user.id)]]["items"][elem])
