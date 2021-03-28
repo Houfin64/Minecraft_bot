@@ -55,7 +55,7 @@ async def ping(ctx):
     await ctx.send(embed=embed)
 
 if __name__ == "__main__":
-    cogs = ["cogs.shopsCog", "cogs.ordersCog"]
+    cogs = ["cogs.shopsCog", "cogs.ordersCog", "cogs.auctionsCog"]
     for cog in cogs:
         bot.load_extension(cog)
 
