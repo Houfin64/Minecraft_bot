@@ -27,25 +27,49 @@ async def die(ctx):
         
 
 @bot.command(name="help", aliases=["h"])
-async def help(ctx):
+async def help(ctx, menu=None):
     embed = discord.Embed(title="Pigs Amiright", description="Here are your help commands ig.", color=random.randint(0, 16777215))
     embed.set_author(name=bot.user.name, icon_url=bot.user.avatar_url)
-    embed.add_field(name="Commands", value="`help` | Displays this message\n `alias-help` | shows aliases of commands \n `ping` | Shows the latency of the bot\n `create-shop <name>|<description>` | Make your shop\n `remove-shop` | Take your shop down \n \
-        `add-item <name>|<price>` | add an item to your shop \n `remove-item <item>` | Take an item off your shelves\n `shops` | View the shops in the server\n `shop <user(optional)>` | look at what someone's shop sells \n `place-order <shop> <item>|<quantity>` | place an order for some of an item \
-            \n `revoke-order <item>` | Cancel an order you have made \n `complete-order <item>` | confirm an incoming order as completed \n `incoming-orders` | View orders people have made for your items \n \
-            `outgoing-orders` | View the outstanding orders you have made in other shops \n `debts` | view the debts people need to pay you \n `my-debts` | view your outstanding debts \n `start-auction <name> <item> <quantity(integer)> <starting price(integer)> <year|month|day|hour|minute(the time it ends)(all integers)>` | start an auction \n \
-                `close-auction` | close your existing auction ", inline=False)
+
+    if menu == "shops":
+        embed.add_field(name="Shop Commands", value="`create-shop <name>|<description>` | Make your shop\n `remove-shop` | Take your shop down \n \
+            `add-item <name>|<price>` | add an item to your shop \n `remove-item <item>` | Take an item off your shelves\n `shops` | View the shops\
+                 in the server\n `shop <user(optional)>` | look at what someone's shop sells \n `debts` | view the debts people need to pay you \n \
+                     `my-debts` | view your outstanding debts ", inline=False)
+    elif menu == "orders":
+        embed.add_field(name="Order Commands", value="`place-order <shop> <item>|<quantity>` | place an order for some of an item \
+                \n `revoke-order <item>` | Cancel an order you have made \n `complete-order <item>` | confirm an incoming order as completed \n \
+                `incoming-orders` | View orders people have made for your items \n `outgoing-orders` | View the outstanding orders you have made in other shops ", inline=False)
+    elif menu == "auctions":
+        embed.add_field(name="Auction Commands", value="`start-auction <name> <item> <quantity(integer)> <starting price(integer)> <year|month|day|hour|minute(the time it ends)(all integers)>` | start an auction \n \
+                    `close-auction` | close your existing auctionloo", inline=False)
+
+         
+    else:
+        embed.add_field(name="Commands", value="`help <shops, orders, or auctions>` | Displays this message\n `alias-help <shops, orders or auctions>` | shows aliases of commands \n `ping` | Shows the latency of the bot", inline=False)
+
     embed.set_footer(text="PigsPigsPigsPigs", icon_url=bot.user.avatar_url)
     await ctx.send(embed=embed)
 
 @bot.command(name="alias-help", aliases=["ah", "alias-h", "al", "You_Can_Call_Me_Al"])
-async def alias_help(ctx):
-    embed = discord.Embed(title="Pigs Smiright", description="Here are your aliases ig.", color=random.randint(0, 16777215))
+async def alias_help(ctx, menu=None):
+    
+    embed = discord.Embed(title="Pigs Amiright", description="Here are your aliases ig.", color=random.randint(0, 16777215))
     embed.set_author(name=bot.user.name, icon_url=bot.user.avatar_url)
-    embed.add_field(name="Aliases", value="`help` | `h`\n `alias-help` | `ah`, `alias-h`, `al`, `You_Can_Call_Me_Al` \n `ping` | `pong`\n `create-shop <name>|<description>` | `cs`, `cre-s`\n `remove-shop` | `rs`, `rem-s`\n \
-        `add-item <name>|<price>` | `ai`, `add-i`\n `remove-item <item>` | `ri`, `rem-i`\n `shops` | `ls`, `list-shops`, `stalls`\n `shop <user(optional)>` | `s`, `stall`\n `place-order <shop> <item>|<quantity>` | `po`, `pla-ord`\
+
+    if menu == "shops":
+        embed.add_field(name="Shop Aliases", value="`create-shop <name>|<description>` | `cs`, `cre-s`\n `remove-shop` | `rs`, `rem-s`\n \
+        `add-item <name>|<price>` | `ai`, `add-i`\n `remove-item <item>` | `ri`, `rem-i`\n `shops` | `ls`, `list-shops`, `stalls`\n \
+            `shop <user(optional)>` | `s`, `stall` \n `debts` | `d`, `debt`\n `my-debts` | `md`, `mydebt`", inline=False)
+    elif menu == "orders":
+        embed.add_field(name="Order Aliases", value="`place-order <shop> <item>|<quantity>` | `po`, `pla-ord`\
             \n `revoke-order <item>` | `ro`, `rev-ord`\n `complete-order <item>` | `co`, `comp-ord`\n `incoming-orders` | `io`, `in-ord`\n \
-            `outgoing-orders` | `oo`, `out-ord`\n `debts` | `d`, `debt`\n `my-debts` | `md`, `mydebt`", inline=False)
+            `outgoing-orders` | `oo`, `out-ord`", inline=False)
+    elif menu == "auctions":
+        embed.add_field(name="Auction Aliases", value="", inline=False)
+    else:
+        embed.add_field(name="Aliases", value="`help` | `h`\n `alias-help` | `ah`, `alias-h`, `al`, `You_Can_Call_Me_Al` \n `ping` | `pong`", inline=False)
+    
     embed.set_footer(text="PigsPigsPigsPigs", icon_url=bot.user.avatar_url)
     await ctx.send(embed=embed)
 

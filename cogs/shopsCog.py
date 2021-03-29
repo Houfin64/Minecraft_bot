@@ -132,7 +132,7 @@ class Shops(commands.Cog):
             embed = discord.Embed(title="Welp, that failed!", description="You need to `£create-shop` to be able to see your shop :)", color = 0xff0000)
             return await ctx.send(embed=embed)
 
-        embed = discord.Embed(title=sdict[udict[str(user.id)]]["name"], description=sdict[udict[str(user.id)]]["description"], color=sdict[str(user.id)["colour"]])
+        embed = discord.Embed(title=sdict[udict[str(user.id)]]["name"], description=sdict[udict[str(user.id)]]["description"], color=random.randint(0, 16777215))
         embed.set_author(name=user.name, icon_url=user.avatar_url)
         for elem in sdict[udict[str(user.id)]]["items"]:
             embed.add_field(name=elem, value=sdict[udict[str(user.id)]]["items"][elem])

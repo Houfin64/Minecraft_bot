@@ -18,6 +18,7 @@ class Orders(commands.Cog):
         elif not isinstance(error, commands.CommandNotFound):
             embed = discord.Embed(title=str(error), description="Oh oh, crash!", color=0xff0000)
             await ctx.send(embed=embed)
+            raise error
 
     @commands.command(name="place-order", aliases=["po", "pla-ord"])
     async def place_order(self, ctx, shop, *, argument):
