@@ -75,13 +75,16 @@ class Auctions(commands.Cog):
         await json_write("auctions", adict)
     
     @commands.command(name="close-auction", aliases=["ca, cl-auc"])
-    async def close_auction(ctx):
+    async def close_auction(self, ctx):
         adict = await load_json("auctions")
 
         for elem in adict:
-            if adict[elem]["owner"] == atr(ctx.author.id):
+            if adict[elem]["owner"] == str(ctx.author.id):
 
-                embed=discord.Embed(title="Success!", description="Your auction has been closed, {} has bought {} {} for {}".format(adict[elem]["latest_buyer"], adict[elem]["quantity"], adict[elem]["item"], adict[elem]["cprice"]), color=random.randint(0, 16777215))
+                embed=discord.Embed(title="Success!", description="Your auction has been closed, {} has bought {} {} for {}".format(self.bot.get_user(int(adict[elem]["latest_buyer"])).name, adict[elem]["quantity"], adict[elem]["item"], adict[elem]["cprice"]), color=random.randint(0, 16777215))
+
+                del adict[elem]
+
                 return await ctx.send(embed=embed)
 
         embed = discord.Embed(title="Welp, that failed!", description="You don't have an open auction!", color=0xff0000)

@@ -12,7 +12,7 @@ bot.remove_command('help')
 @bot.event
 async def on_ready():
     print("Connected")
-    await bot.change_presence(status=discord.Status.online, activity=discord.Game('£ping')) 
+    await bot.change_presence(status=discord.Status.online, activity=discord.Activity(type=discord.ActivityType.watching, name="you lose money")) 
 
 @bot.command(name="die")
 async def die(ctx):
