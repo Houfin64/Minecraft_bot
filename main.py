@@ -3,6 +3,7 @@ import random
 from discord.ext import commands
 from functions.tools import json_write, load_json, Member_Obj
 import sys
+from datetime import datetime
 
 intents = discord.Intents.all()
 bot = commands.Bot(intents=intents, command_prefix = "£")
@@ -84,4 +85,8 @@ if __name__ == "__main__":
     for cog in cogs:
         bot.load_extension(cog)
 
-bot.run('ODIzOTI4NzcwMTIwNTE1NjY1.YFn9dg.lCoqMxOwpVnehLnLEjdX1Hsi0rs')
+while 1:
+    t = datetime.now().time()
+    if t.second == 0:
+        bot.run('ODIzOTI4NzcwMTIwNTE1NjY1.YFn9dg.lCoqMxOwpVnehLnLEjdX1Hsi0rs')
+        break

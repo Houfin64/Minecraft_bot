@@ -85,6 +85,8 @@ class Auctions(commands.Cog):
 
                 del adict[elem]
 
+                await json_write("auctions", adict)
+
                 return await ctx.send(embed=embed)
 
         embed = discord.Embed(title="Welp, that failed!", description="You don't have an open auction!", color=0xff0000)

@@ -2,7 +2,7 @@ import discord
 import random
 from discord.ext import commands
 from functions.tools import json_write, load_json, Member_Obj
-import datetime
+from datetime import datetime
 from discord.ext import tasks
 
 class Orders(commands.Cog):
@@ -195,7 +195,9 @@ class Orders(commands.Cog):
         adict = await load_json("auctions")
 
         for elem in adict:
-            if [datetime.datetime.year, datetime.datetime.month, datetime.datetime.day, datetime.datetime.hour, datetime.datetime.minute] == [adict[elem]["fintime"]["year"], adict[elem]["fintime"]["month"], adict[elem]["fintime"]["day"], adict[elem]["fintime"]["hour"], adict[elem]["fintime"]["minute"]]:
+            t = datetime.now().time()
+            d = datetime.now()
+            if [d.year, d.month, t.day, t.hour, t.minute] == [adict[elem]["fintime"]["year"], adict[elem]["fintime"]["month"], adict[elem]["fintime"]["day"], adict[elem]["fintime"]["hour"], adict[elem]["fintime"]["minute"]]:
                 embed = discord.Embed(title="Auction Has Ended!", description="the auction {} by {} for {} {} has been sold to {} for a price of {}!".format(adict[elem]["name"], self.bot.get_user(int(adict[elem]["ownwer"])).name, adict[elem]["quantity"], adict[elem]["item"], self.bot.get_user(int(adict[elem]["latest_buyer"])).name, adict[elem]["cprice"]), color=random.randint(0, 16777215))
                 
                 channel = get_channel(817769566251515904)
