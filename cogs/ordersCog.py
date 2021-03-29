@@ -2,6 +2,7 @@ import discord
 import random
 from discord.ext import commands
 from functions.tools import json_write, load_json, Member_Obj
+import datetime
 
 class Orders(commands.Cog):
 
@@ -182,6 +183,28 @@ class Orders(commands.Cog):
             embed.add_field(name=elem, value="{} | {}".format(iodict[str(user.id)][elem]["quantity"], iodict[str(user.id)][elem]["tprice"]))
         embed.set_footer(text=f"requested by {ctx.author.name}", icon_url=ctx.author.avatar_url)
         await ctx.send(embed=embed)
+
+    @commands.Cog.listener()
+    async def on_ready(self):
+        while 1:
+            if datetime.seconds == 0:
+                self.auction_loop.start()
+                break
+
+    @tasks.loop(60)
+    async def auction_loop(self):
+        adict = await load_json("auctions")
+
+        for elem in adict:
+            if [datetime.year, datetime.month, datetime.day, datetime.hour, datetime.minute] == adict[elem]["fintime"]:
+                embed = discord.Embed(title="Auction Has Ended!", description="the auction {} by {} for {} {} has been sold to {} for a price of {}!".format(adict[elem]["name"], self.bot.get_user(int(adict[elem]["ownwer"])).name, adict[elem]["quantity"], adict[elem]["item"], self.bot.get_user(int(adict[elem]["latest_buyer"])).name, adict[elem]["cprice"]), color=random.randint(0, 16777215))
+                await ctx.send(embed=embed)
+
+                await self.bot.get_user(int(adict[elem]["owner"])).create_dm()
+
+                embed = discord.Embed(title="Your auction has ended", description="your auction {} for {} {} has been sold to {} for a price of {}!".format(adict[elem]["name"], adict[elem]["quantity"], adict[elem]["item"], self.bot.get_user(int(adict[elem]["latest_buyer"])).name, adict[elem]["cprice"])".format(quantity, order, self.bot.get_user(int(orderee)).name), color=0xff0000)
+                await self.bot.get_user(int(adict[elem]["owner"])).dm_channel.send(embed=embed)
+
 
 def setup(bot):
     bot.add_cog(Orders(bot))

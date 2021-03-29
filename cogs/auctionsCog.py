@@ -86,8 +86,6 @@ class Auctions(commands.Cog):
 
         embed = discord.Embed(title="Welp, that failed!", description="You don't have an open auction!", color=0xff0000)
         await ctx.send(embed=embed)
-        
-
 
     @commands.command(name="my-auction", aliases=["ma, my-auc"])
     async def myauction(self, ctx):
@@ -108,7 +106,6 @@ class Auctions(commands.Cog):
         else:
             embed = discord.Embed(title="Welp, that failed!", description="You have no ongoing auctions dumbass!", color=0xff0000)
             await ctx.send(embed=embed)
-        
 
 
 def setup(bot):
