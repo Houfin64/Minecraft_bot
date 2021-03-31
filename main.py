@@ -33,7 +33,7 @@ async def help(ctx, menu=None):
     embed.set_author(name=bot.user.name, icon_url=bot.user.avatar_url)
 
     if menu == "shops":
-        embed.add_field(name="Shop Commands", value="`create-shop <name>|<description>` | Make your shop\n `remove-shop` | Take your shop down \n \
+        embed.add_field(name="Shop Commands", value="`create-shop <colour(base 10 colour code)> <name>|<description>` | Make your shop\n `remove-shop` | Take your shop down \n \
             `add-item <name>|<price>` | add an item to your shop \n `remove-item <item>` | Take an item off your shelves\n `shops` | View the shops\
                  in the server\n `shop <user(optional)>` | look at what someone's shop sells \n `debts` | view the debts people need to pay you \n \
                      `my-debts` | view your outstanding debts ", inline=False)
@@ -59,7 +59,7 @@ async def alias_help(ctx, menu=None):
     embed.set_author(name=bot.user.name, icon_url=bot.user.avatar_url)
 
     if menu == "shops":
-        embed.add_field(name="Shop Aliases", value="`create-shop <name>|<description>` | `cs`, `cre-s`\n `remove-shop` | `rs`, `rem-s`\n \
+        embed.add_field(name="Shop Aliases", value="`create-shop <colour(base 10 colour code)> <name>|<description>` | `cs`, `cre-s`\n `remove-shop` | `rs`, `rem-s`\n \
         `add-item <name>|<price>` | `ai`, `add-i`\n `remove-item <item>` | `ri`, `rem-i`\n `shops` | `ls`, `list-shops`, `stalls`\n \
             `shop <user(optional)>` | `s`, `stall` \n `debts` | `d`, `debt`\n `my-debts` | `md`, `mydebt`", inline=False)
     elif menu == "orders":
