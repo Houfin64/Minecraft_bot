@@ -43,13 +43,12 @@ async def help(ctx, menu=None):
                 `incoming-orders` | View orders people have made for your items \n `outgoing-orders` | View the outstanding orders you have made in other shops ", inline=False)
     elif menu == "auctions":
         embed.add_field(name="Auction Commands", value="`start-auction <name> <item> <quantity(integer)> <starting price(integer)> <year|month|day|hour|minute(the time it ends)(all integers)>` | start an auction \n \
-                    `close-auction` | close your existing auctionloo", inline=False)
+                    `close-auction` | close your existing auction \n `my-auction` | view your open auction (if you have one) \n `auctions` | view all open auctions \n `place-bid <auction> <bid>` | place a bid on an open auction", inline=False)
 
-         
     else:
         embed.add_field(name="Commands", value="`help <shops, orders, or auctions>` | Displays this message\n `alias-help <shops, orders or auctions>` | shows aliases of commands \n `ping` | Shows the latency of the bot", inline=False)
 
-    embed.set_footer(text="PigsPigsPigsPigs", icon_url=bot.user.avatar_url)
+    embed.set_footer(text=f"requested by {ctx.author.name}", icon_url=ctx.author.avatar_url)
     await ctx.send(embed=embed)
 
 @bot.command(name="alias-help", aliases=["ah", "alias-h", "al", "You_Can_Call_Me_Al"])
@@ -67,11 +66,12 @@ async def alias_help(ctx, menu=None):
             \n `revoke-order <item>` | `ro`, `rev-ord`\n `complete-order <item>` | `co`, `comp-ord`\n `incoming-orders` | `io`, `in-ord`\n \
             `outgoing-orders` | `oo`, `out-ord`", inline=False)
     elif menu == "auctions":
-        embed.add_field(name="Auction Aliases", value="", inline=False)
+        embed.add_field(name="Auction Aliases", value="`start-auction <name> <item> <quantity(integer)> <starting price(integer)> <year|month|day|hour|minute(the time it ends)(all integers)>` | `st`, `st-auc`\n \
+                    `close-auction` | `ca`, `cl-auc`\n `my-auction` | `ma`, `my-auc`\n `auctions` | `a`\n `place-bid <auction> <bid>` | `pb`, `p-bid`", inline=False)
     else:
         embed.add_field(name="Aliases", value="`help` | `h`\n `alias-help` | `ah`, `alias-h`, `al`, `You_Can_Call_Me_Al` \n `ping` | `pong`", inline=False)
     
-    embed.set_footer(text="PigsPigsPigsPigs", icon_url=bot.user.avatar_url)
+    embed.set_footer(text=f"requested by {ctx.author.name}", icon_url=ctx.author.avatar_url)
     await ctx.send(embed=embed)
 
 
