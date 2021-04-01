@@ -80,6 +80,11 @@ async def ping(ctx):
     embed = discord.Embed(title="Pong!", description=f'Pong! {round(bot.latency * 1000)}ms', color=random.randint(0, 16777215))
     await ctx.send(embed=embed)
 
+@bot.command(name="PigsPigsPigsPigsPigsPigsPigs", aliases=["PigsPigsPigsPigs", "PigsPigsPigs", "PigsPigs", "Pigs", "Pigsx7"])
+async def Pigs(ctx):
+    embed = discord.Embed(title="PigsPigsPigsPigsPigsPigsPigs", description="Or Pigs x7, were a rock band formed in Newcastle-upon-Tyne in 2012", color=random.randint(0, 16777215))
+    ctx.send(embed=embed)
+    
 if __name__ == "__main__":
     cogs = ["cogs.shopsCog", "cogs.ordersCog", "cogs.auctionsCog"]
     for cog in cogs:
