@@ -14,7 +14,8 @@ bot.remove_command('help')
 async def on_command_error(ctx, error):
     edict = await load_json("arg-errors")
 
-    usage = edict[str(ctx.command)]
+    if str(ctx.command) in edict:
+        usage = edict[str(ctx.command)]
 
     if isinstance(error, commands.MissingRequiredArgument):
         embed = discord.Embed(title="Usage:", description=f"`{usage}`", color=0xff0000)
@@ -37,6 +38,23 @@ async def die(ctx):
         embed=discord.Embed(title="Oh oh, here we go again!", description="This Bot Is Going Offline!", color=random.randint(0, 16777215))
         await ctx.send(embed=embed)
         sys.exit(0)
+    else:
+        embed = discord.Embed(description="You are missing the Bot Admin permission required to invoke this command. HAHA SUCKER!!", color=0xff0000)
+        await ctx.send(embed=embed)
+
+@bot.command(name="wipe")
+async def die(ctx):
+    if ctx.author.id  == 624654132845740073:
+        adict = {}
+        odict = {}
+        oodict = {}
+        sdict = {}
+        udict = {}
+        await json_write("auctions", adict)
+        await json_write("orders", odict)
+        await json_write("out_orders", oodict)
+        await json_write("shops", sdict)
+        await json_write("users", udict)
     else:
         embed = discord.Embed(description="You are missing the Bot Admin permission required to invoke this command. HAHA SUCKER!!", color=0xff0000)
         await ctx.send(embed=embed)
@@ -102,10 +120,10 @@ async def Pigs(ctx):
 
 @bot.command(name="pog", aliases=["poggers"])
 async def pog(ctx):
-    embed = discord.Embed(title="Pog", description="POG", color=random.randint(0, 16777215))
-    embed.set_thumbnail(url="https://pbs.twimg.com/profile_images/1282814612505866251/p7jnsOVy_400x400.jpg")
-    await ctx.send(embed=embed)
-    
+    pog = discord.Embed(color=random.randint(0, 16777215))
+    pog.set_thumbnail(url="https://www.startpage.com/av/proxy-image?piurl=https%3A%2F%2Fencrypted-tbn0.gstatic.com%2Fimages%3Fq%3Dtbn%3AANd9GcTyLzmDXbkdGch1pqFvUHkqravi-BMokrbYppcjTKtYv60HlL0%26s&sp=1617273383T45942d82682a574bd2c886cf4a8444489222b41a569c66983f340f9a0770b33d")
+    await ctx.send(embed=pog)
+
 if __name__ == "__main__":
     cogs = ["cogs.shopsCog", "cogs.ordersCog", "cogs.auctionsCog"]
     for cog in cogs:

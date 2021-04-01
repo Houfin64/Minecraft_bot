@@ -79,7 +79,7 @@ class Shops(commands.Cog):
         udict = await load_json("users")
 
         try:
-            price = int(price)
+            price = float(price)
         except ValueError:
             embed = discord.Embed(title="Welp, that failed!", description="Usage:  `£add-item <item>|<price(integer)>`", color=0xff0000)
             return await ctx.send(embed=embed)
@@ -164,7 +164,7 @@ class Shops(commands.Cog):
             payment = iodict[str(ctx.author.id)][debt]["tprice"]
             tdebt += payment
             embed.add_field(name=orderer, value="{} for {} {}".format(payment, iodict[str(ctx.author.id)][debt]["quantity"], iodict[str(ctx.author.id)][debt]["item"]))
-        embed.add_field(name="Total debts To be Paid", value=str(tdebt))
+        embed.set_footer(text="Total debts To be Paid: {}".format(str(tdebt)))
         await ctx.send(embed=embed)
 
     
@@ -182,7 +182,7 @@ class Shops(commands.Cog):
             payment = oodict[str(ctx.author.id)][debt]["tprice"]
             tdebt += payment
             embed.add_field(name=orderee, value="{} for {} {}".format(payment, oodict[str(ctx.author.id)][debt]["quantity"], oodict[str(ctx.author.id)][debt]["item"]))
-        embed.add_field(name="Total debts To be Paid", value=str(tdebt))
+        embed.set_footer(text="Total debts To be Paid: {}".format(str(tdebt)))
         await ctx.send(embed=embed)
 
 
