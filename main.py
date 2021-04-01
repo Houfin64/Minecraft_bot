@@ -28,7 +28,7 @@ async def on_command_error(ctx, error):
 @bot.event
 async def on_ready():
     print("Connected")
-    await bot.change_presence(status=discord.Status.online, activity=discord.Activity(type=discord.ActivityType.watching, name="you lose money")) 
+    await bot.change_presence(status=discord.Status.online, activity=discord.Activity(type=discord.ActivityType.watching, name="death devour His victims")) 
 
 @bot.command(name="die")
 async def die(ctx):
