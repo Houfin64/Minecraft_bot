@@ -10,16 +10,6 @@ class Orders(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.Cog.listener()
-    async def on_command_error(self, ctx, error):
-        if isinstance(error, commands.MissingRequiredArgument):
-            embed = discord.Embed(title="Oops", description="looks like you forgot an argument!", color=0xff0000)
-            await ctx.send(embed=embed)
-        elif not isinstance(error, commands.CommandNotFound):
-            embed = discord.Embed(title=str(error), description="Oh oh, crash!", color=0xff0000)
-            await ctx.send(embed=embed)
-            raise error
-
     @commands.command(name="place-order", aliases=["po", "pla-ord"])
     async def place_order(self, ctx, shop, *, argument):
         udict = await load_json("users")
@@ -197,7 +187,7 @@ class Orders(commands.Cog):
         for elem in adict:
             t = datetime.now().time()
             d = datetime.now()
-            if [d.year, d.month, d .day, t.hour, t.minute] == [adict[elem]["fintime"]["year"], adict[elem]["fintime"]["month"], adict[elem]["fintime"]["day"], adict[elem]["fintime"]["hour"], adict[elem]["fintime"]["minute"]]:
+            if [d.month, d .day, t.hour, t.minute] == [adict[elem]["fintime"]["month"], adict[elem]["fintime"]["day"], adict[elem]["fintime"]["hour"], adict[elem]["fintime"]["minute"]]:
                 embed = discord.Embed(title="Auction Has Ended!", description="the auction {} by {} for {} {} has been sold to {} for a price of {}!".format(adict[elem]["name"], self.bot.get_user(int(adict[elem]["ownwer"])).name, adict[elem]["quantity"], adict[elem]["item"], self.bot.get_user(int(adict[elem]["latest_buyer"])).name, adict[elem]["cprice"]), color=random.randint(0, 16777215))
                 
                 channel = get_channel(817769566251515904)

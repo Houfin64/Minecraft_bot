@@ -11,6 +11,21 @@ bot = commands.Bot(intents=intents, command_prefix = "£")
 bot.remove_command('help')
 
 @bot.event
+async def on_command_error(ctx, error):
+    edict = await load_json("arg-errors")
+
+    usage = edict[str(ctx.command)]
+
+    if isinstance(error, commands.MissingRequiredArgument):
+        embed = discord.Embed(title="Usage:", description=f"`{usage}`", color=0xff0000)
+        await ctx.send(embed=embed)
+
+    elif not isinstance(error, commands.CommandNotFound):
+        embed = discord.Embed(title=str(error), description="Oh oh, crash!", color=0xff0000)
+        await ctx.send(embed=embed)
+        raise error
+
+@bot.event
 async def on_ready():
     print("Connected")
     await bot.change_presence(status=discord.Status.online, activity=discord.Activity(type=discord.ActivityType.watching, name="you lose money")) 
@@ -42,7 +57,7 @@ async def help(ctx, menu=None):
                 \n `revoke-order <item>` | Cancel an order you have made \n `complete-order <item>` | confirm an incoming order as completed \n \
                 `incoming-orders` | View orders people have made for your items \n `outgoing-orders` | View the outstanding orders you have made in other shops ", inline=False)
     elif menu == "auctions":
-        embed.add_field(name="Auction Commands", value="`start-auction <name> <item> <quantity(integer)> <starting price(integer)> <year|month|day|hour|minute(the time it ends)(all integers)>` | start an auction \n \
+        embed.add_field(name="Auction Commands", value="`start-auction <name> <item> <quantity(integer)> <starting price(integer)> <month|day|hour|minute(the time it ends)(all integers)>` | start an auction \n \
                     `close-auction` | close your existing auction \n `my-auction` | view your open auction (if you have one) \n `auctions` | view all open auctions \n `place-bid <auction> <bid>` | place a bid on an open auction", inline=False)
 
     else:
@@ -66,7 +81,7 @@ async def alias_help(ctx, menu=None):
             \n `revoke-order <item>` | `ro`, `rev-ord`\n `complete-order <item>` | `co`, `comp-ord`\n `incoming-orders` | `io`, `in-ord`\n \
             `outgoing-orders` | `oo`, `out-ord`", inline=False)
     elif menu == "auctions":
-        embed.add_field(name="Auction Aliases", value="`start-auction <name> <item> <quantity(integer)> <starting price(integer)> <year|month|day|hour|minute(the time it ends)(all integers)>` | `st`, `st-auc`\n \
+        embed.add_field(name="Auction Aliases", value="`start-auction <name> <item> <quantity(integer)> <starting price(integer)> <month|day|hour|minute(the time it ends)(all integers)>` | `st`, `st-auc`\n \
                     `close-auction` | `ca`, `cl-auc`\n `my-auction` | `ma`, `my-auc`\n `auctions` | `a`\n `place-bid <auction> <bid>` | `pb`, `p-bid`", inline=False)
     else:
         embed.add_field(name="Aliases", value="`help` | `h`\n `alias-help` | `ah`, `alias-h`, `al`, `You_Can_Call_Me_Al` \n `ping` | `pong`", inline=False)

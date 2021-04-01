@@ -16,7 +16,7 @@ class Auctions(commands.Cog):
         embed = discord.Embed(title="Ongoing Auctions", description="These are the auctions that haven't finished", color=random.randint(0, 16777215))
         embed.set_author(name=self.bot.user.name, icon_url=self.bot.user.avatar_url)
         for elem in adict:
-            embed.add_field(name=elem, value="{} {} currently put at a price of {} by {}. Ends on {}/{}/{} at {}:{}".format(adict[elem]["quantity"], adict[elem]["item"], adict[elem]["cprice"], self.bot.get_user(int(adict[elem]["latest_buyer"])).name, adict[elem]["fintime"]["year"], adict[elem]["fintime"]["month"], adict[elem]["fintime"]["day"], adict[elem]["fintime"]["hour"], adict[elem]["fintime"]["minute"]))
+            embed.add_field(name=elem, value="{} {} currently put at a price of {} by {}. Ends on {}/{}/{} at {}:{}".format(adict[elem]["quantity"], adict[elem]["item"], adict[elem]["cprice"], self.bot.get_user(int(adict[elem]["latest_buyer"])).name, adict[elem]["fintime"]["month"], adict[elem]["fintime"]["day"], adict[elem]["fintime"]["hour"], adict[elem]["fintime"]["minute"]))
 
         embed.set_footer(text=f"requested by {ctx.author.name}", icon_url=ctx.author.avatar_url)
         await ctx.send(embed=embed)
@@ -57,17 +57,17 @@ class Auctions(commands.Cog):
                 return await ctx.send(embed=embed)
 
         try: 
-            year, month, day, hour, minute = timescale.split("|")
+            month, day, hour, minute = timescale.split("|")
         except ValueError:
-            embed = discord.Embed(title="Welp, that failed!", description="Usage: `<name> <item> <quantity(integer)> <starting price(integer)> <year|month|day|hour|minute(the time it ends)(all integers)>`", color=0xff0000)
+            embed = discord.Embed(title="Welp, that failed!", description="Usage: `<name> <item> <quantity(integer)> <starting price(integer)> <month|day|hour|minute(the time it ends)(all integers)>`", color=0xff0000)
             return await ctx.send(embed=embed)
         try:
-            year, month, day, hour, minute, quantity, starting_price = int(year), int(month), int(day), int(hour), int(minute), int(quantity), int(starting_price)
+            month, day, hour, minute, quantity, starting_price = int(month), int(day), int(hour), int(minute), int(quantity), int(starting_price)
         except ValueError:
-            embed = discord.Embed(title="Welp, that failed!", description="Usage: `<name> <item> <quantity(integer)> <starting price(integer)> <year|month|day|hour|minute(the time it ends)(all integers)>`", color=0xff0000)
+            embed = discord.Embed(title="Welp, that failed!", description="Usage: `<name> <item> <quantity(integer)> <starting price(integer)> <month|day|hour|minute(the time it ends)(all integers)>`", color=0xff0000)
             return await ctx.send(embed=embed)
 
-        adict[name] = {"owner": str(ctx.author.id), "item": item, "quantity": quantity, "cprice": str(starting_price), "fintime": {"year": year, "month": month, "day": day, "hour": hour, "minute": minute}, "latest_buyer": str(ctx.author.id)}
+        adict[name] = {"owner": str(ctx.author.id), "item": item, "quantity": quantity, "cprice": str(starting_price), "fintime": {"month": month, "day": day, "hour": hour, "minute": minute}, "latest_buyer": str(ctx.author.id)}
 
         embed = discord.Embed(title="Your auction has been added.", description="It starts.... NOW!!", color=0x00ff00)
         await ctx.send(embed=embed)
