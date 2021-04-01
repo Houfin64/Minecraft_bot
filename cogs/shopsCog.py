@@ -14,6 +14,16 @@ class Shops(commands.Cog):
         sdict = await load_json("shops")
         udict = await load_json("users")
 
+        try:
+            colour = int(colour)
+        except ValueError:
+            embed = discord.Embed(title="Welp, that failed!", description="colour has to be an integer below 16777216", color=0xff0000)
+            return await ctx.send(embed=embed)
+
+        if colour > 16777215:
+            embed = discord.Embed(title="Welp, that failed!", description="colour has to be an integer below 16777216", color=0xff0000)
+            return await ctx.send(embed=embed)
+
         if "|" not in argument:
             embed = discord.Embed(title="Welp, that failed!", description="Syntax: `£create-shop <colour> <shop-name>|<description>`", color=0xff0000)
             return await ctx.send(embed=embed)
@@ -132,7 +142,7 @@ class Shops(commands.Cog):
             embed = discord.Embed(title="Welp, that failed!", description="You need to `£create-shop` to be able to see your shop :)", color = 0xff0000)
             return await ctx.send(embed=embed)
 
-        embed = discord.Embed(title=sdict[udict[str(user.id)]]["name"], description=sdict[udict[str(user.id)]]["description"], color=discord.Colour(sdict[udict[str(ctx.author.id)]]["color"]))
+        embed = discord.Embed(title=sdict[udict[str(user.id)]]["name"], description=sdict[udict[str(user.id)]]["description"], color=discord.Colour(sdict[udict[str(user.id)]]["color"]))
         embed.set_author(name=user.name, icon_url=user.avatar_url)
         for elem in sdict[udict[str(user.id)]]["items"]:
             embed.add_field(name=elem, value=sdict[udict[str(user.id)]]["items"][elem])
