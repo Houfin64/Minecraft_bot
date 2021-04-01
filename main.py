@@ -46,7 +46,7 @@ async def help(ctx, menu=None):
                     `close-auction` | close your existing auction \n `my-auction` | view your open auction (if you have one) \n `auctions` | view all open auctions \n `place-bid <auction> <bid>` | place a bid on an open auction", inline=False)
 
     else:
-        embed.add_field(name="Commands", value="`help <shops, orders, or auctions>` | Displays this message\n `alias-help <shops, orders or auctions>` | shows aliases of commands \n `ping` | Shows the latency of the bot", inline=False)
+        embed.add_field(name="Commands", value="`help <shops, orders, or auctions>` | Displays this message\n `alias-help <shops, orders or auctions>` | shows aliases of commands \n `ping` | Shows the latency of the bot \n `pog` | POG", inline=False)
 
     embed.set_footer(text=f"requested by {ctx.author.name}", icon_url=ctx.author.avatar_url)
     await ctx.send(embed=embed)
@@ -83,6 +83,12 @@ async def ping(ctx):
 @bot.command(name="PigsPigsPigsPigsPigsPigsPigs", aliases=["PigsPigsPigsPigs", "PigsPigsPigs", "PigsPigs", "Pigs", "Pigsx7"])
 async def Pigs(ctx):
     embed = discord.Embed(title="PigsPigsPigsPigsPigsPigsPigs", description="Or Pigs x7, were a rock band formed in Newcastle-upon-Tyne in 2012", color=random.randint(0, 16777215))
+    await ctx.send(embed=embed)
+
+@bot.command(name="pog", aliases=["poggers"])
+async def pog(ctx):
+    embed = discord.Embed(title="Pog", description="POG", color=random.randint(0, 16777215))
+    embed.set_thumbnail(url="https://pbs.twimg.com/profile_images/1282814612505866251/p7jnsOVy_400x400.jpg")
     await ctx.send(embed=embed)
     
 if __name__ == "__main__":
